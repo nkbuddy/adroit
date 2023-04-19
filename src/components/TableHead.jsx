@@ -2,9 +2,10 @@ import React from "react";
 
 function TableHead() {
   return (
-    <thead>
+    <thead className="table-success">
       <tr>
         <th colSpan="2"></th>
+        <th>id</th>
         <th>Panel Finish</th>
         <th>Panel ID</th>
         <th>Qty</th>

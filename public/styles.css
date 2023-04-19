@@ -25,6 +25,10 @@ header h1 {
   font-weight: 200;
 }
 
+table{
+  width:70%
+}
+
 footer {
   position: absolute;
   text-align: center;
@@ -41,16 +45,6 @@ footer {
   margin-left: 20%;
 }
 
-table {
-  width: 50%;
-  background-color: greenyellow;
-}
-th {
-  text-align: center;
-}
-td {
-  text-align: left;
-}
 footer p {
   color: #ccc;
 }

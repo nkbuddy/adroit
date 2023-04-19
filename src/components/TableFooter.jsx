@@ -19,13 +19,14 @@ function TableFooter(props) {
   return (
     <tfoot>
       <tr>
-        <td colSpan="4" align="right">total items</td>
+        <td colSpan="5" align="right">total items</td>
         <td>54</td>
         <td colSpan="7" align="right">$123</td>
       </tr>
 
       <tr>
-        <td colSpan="5"><i class="bi bi-plus-circle-fill" onClick={handleClick}></i>add row</td>
+        <td colSpan="1"><i className="bi bi-plus-circle-fill" onClick={handleClick}></i></td>
+        <td>add row</td>
       </tr>
     </tfoot>
   );

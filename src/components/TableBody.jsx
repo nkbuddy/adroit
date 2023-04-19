@@ -1,10 +1,12 @@
 import React, { useState } from "react";
+import panelFinish from "../panelFinish.js";
+import { Input,Checkbox,NativeSelect,Autocomplete,TextField } from '@mui/material';
 
 function TableBody(props) {
   const [row, setRow] = useState({
-    panelFinish: "",
+    panelFinish: props.panelFinish,
     panelId: "",
-    qty: "",
+    qty: props.qty,
     width: "",
     height: "",
     hingeHole: false,
@@ -15,103 +17,114 @@ function TableBody(props) {
   });
 
   function handleChange(event) {
-    const { name, value } = event.target;
+    const { className, value } = event.target;
     setRow((prevRow) => {
       return {
         ...prevRow,
-        [name]: value,
+        [className]: value,
       };
     });
+    props.onUpdate(props.id,row);
   }
 
   function handleDelete() {
     props.onDelete(props.id);
   }
 
+  function handleCopy(){
+    props.onCopy(props.id,row);
+  }
+
   return (
     <tr>
       <td>
-        <i class="bi bi-x-circle-fill" onClick={handleDelete}></i>
+        <i className="bi bi-x-circle-fill" onClick={handleDelete}></i>
       </td>
       <td>
-        <i class="bi bi-files"></i>
+        <i className="bi bi-files" onClick={handleCopy}></i>
       </td>
+      <td>{props.id}</td>
       <td>
-        <input
-          type="text"
-          name="panelFinish"
-          onChange={handleChange}
-          value={row.panelFinish}
+        <Autocomplete
+        className="panelFinish"
+        id="grouped-demo"
+        options={panelFinish.sort((a,b)=>-b.label.localeCompare(a.label))}
+        getOptionLabel={(panelFinish)=>panelFinish.label}
+        onChange={handleChange}
+        value={props.panelFinish}
+        renderInput={(params)=>(
+          <TextField{...params}/>
+        )}
         />
       </td>
       <td>
-        <input
-          type="number"
-          name="panelId"
-          onChange={handleChange}
-          value={row.panelId}
+      <Autocomplete
+        className="panelFinish"
+        id="grouped-demo"
+        options={panelFinish.sort((a,b)=>-b.id.localeCompare(a.id))}
+        getOptionLabel={(panelFinish)=>panelFinish.id}
+        onChange={handleChange}
+        value={props.panelId}
+        renderInput={(params)=>(
+          <TextField{...params}/>
+        )}
         />
       </td>
       <td>
-        <input
+        <Input
           type="number"
-          name="qty"
+          className="qty"
           onChange={handleChange}
           value={row.qty}
         />
       </td>
       <td>
-        <input
+        <Input
           type="number"
-          name="width"
+          className="width"
           onChange={handleChange}
-          value={row.width}
+          value={props.width}
         />
       </td>
       <td>
-        <input
+        <Input
           type="number"
-          name="height"
+          className="height"
           onChange={handleChange}
-          value={row.height}
+          value={props.height}
         />
       </td>
       <td>
-        <input
-          class="form-check-input"
-          type="checkbox"
+        <Checkbox
           id="defaultCheck1"
-          name="hingeHole"
+          className="hingeHole"
           onChange={handleChange}
-          value={row.hingeHole}
+          value={props.hingeHole}
         />
       </td>
       <td>
-        <input
-          class="form-check-input"
-          type="checkbox"
+        <Checkbox
           id="defaultCheck2"
-          name="woodGrand"
+          className="woodGrand"
           onChange={handleChange}
-          value={row.woodGrand}
+          value={props.woodGrand}
         />
       </td>
       <td>
-        <select
-          class="custom-select my-1 mr-sm-2"
+        <NativeSelect
           id="inlineFormCustomSelectPref"
-          name="miterCut"
+          className="miterCut"
           onChange={handleChange}
           value={row.miterCut}
         >
           <option defaultValue="None">None</option>
-          <option value="1">Top</option>
-          <option value="2">1H</option>
-          <option value="3">Bot</option>
-        </select>
+          <option value="Top">Top</option>
+          <option value="1H">1H</option>
+          <option value="Bot">Bot</option>
+        </NativeSelect>
       </td>
-      <td>$123</td>
-      <td>$123</td>
+      <td>{props.price}</td>
+      <td>{props.subtotal}</td>
     </tr>
   );
 }

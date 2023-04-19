@@ -9,7 +9,7 @@ function Topbar() {
     >
       <div className="container-fluid">
         <button
-          class="navbar-toggler"
+          className="navbar-toggler"
           type="button"
           data-bs-toggle="collapse"
           data-bs-target="#navbarsExample11"
