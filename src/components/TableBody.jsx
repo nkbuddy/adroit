@@ -7,8 +7,8 @@ function TableBody(props) {
     qty: "",
     width: "",
     height: "",
-    hingeHole: "",
-    woodGrand: "",
+    hingeHole: false,
+    woodGrand: false,
     miterCut: "",
     price: "",
     subtotal: "",
@@ -22,7 +22,6 @@ function TableBody(props) {
         [name]: value,
       };
     });
-    console.log(row);
   }
 
   function handleDelete() {
@@ -43,8 +42,6 @@ function TableBody(props) {
           name="panelFinish"
           onChange={handleChange}
           value={row.panelFinish}
-          onkeydown="if(event.key==='.'){event.preventDefault();}"
-          oninput="event.target.value = event.target.value.replace(/[^0-9]*/g,'');"
         />
       </td>
       <td>
@@ -53,8 +50,6 @@ function TableBody(props) {
           name="panelId"
           onChange={handleChange}
           value={row.panelId}
-          onkeydown="if(event.key==='.'){event.preventDefault();}"
-          oninput="event.target.value = event.target.value.replace(/[^0-9]*/g,'');"
         />
       </td>
       <td>
@@ -63,8 +58,6 @@ function TableBody(props) {
           name="qty"
           onChange={handleChange}
           value={row.qty}
-          onkeydown="if(event.key==='.'){event.preventDefault();}"
-          oninput="event.target.value = event.target.value.replace(/[^0-9]*/g,'');"
         />
       </td>
       <td>
@@ -73,8 +66,6 @@ function TableBody(props) {
           name="width"
           onChange={handleChange}
           value={row.width}
-          onkeydown="if(event.key==='.'){event.preventDefault();}"
-          oninput="event.target.value = event.target.value.replace(/[^0-9]*/g,'');"
         />
       </td>
       <td>
@@ -83,32 +74,37 @@ function TableBody(props) {
           name="height"
           onChange={handleChange}
           value={row.height}
-          onkeydown="if(event.key==='.'){event.preventDefault();}"
-          oninput="event.target.value = event.target.value.replace(/[^0-9]*/g,'');"
         />
       </td>
       <td>
         <input
           class="form-check-input"
           type="checkbox"
-          value=""
           id="defaultCheck1"
+          name="hingeHole"
+          onChange={handleChange}
+          value={row.hingeHole}
         />
       </td>
       <td>
         <input
           class="form-check-input"
           type="checkbox"
-          value=""
           id="defaultCheck2"
+          name="woodGrand"
+          onChange={handleChange}
+          value={row.woodGrand}
         />
       </td>
       <td>
         <select
           class="custom-select my-1 mr-sm-2"
           id="inlineFormCustomSelectPref"
+          name="miterCut"
+          onChange={handleChange}
+          value={row.miterCut}
         >
-          <option selected>None</option>
+          <option defaultValue="None">None</option>
           <option value="1">Top</option>
           <option value="2">1H</option>
           <option value="3">Bot</option>

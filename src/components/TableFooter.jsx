@@ -1,19 +1,31 @@
 import React from "react";
 
 function TableFooter(props) {
+    const row = {
+        panelFinish: "",
+        panelId: "",
+        qty: "",
+        width: "",
+        height: "",
+        hingeHole: false,
+        woodGrand: false,
+        miterCut: "",
+        price: "",
+        subtotal: "",
+      };
     function handleClick(){
-        props.onAdd();
+        props.onAdd(row);
     }
   return (
     <tfoot>
       <tr>
-        <td colspan="4" align="right">total items</td>
+        <td colSpan="4" align="right">total items</td>
         <td>54</td>
-        <td colspan="7" align="right">$123</td>
+        <td colSpan="7" align="right">$123</td>
       </tr>
 
       <tr>
-        <td colspan="5"><i class="bi bi-plus-circle-fill" onClick={handleClick}></i>add row</td>
+        <td colSpan="5"><i class="bi bi-plus-circle-fill" onClick={handleClick}></i>add row</td>
       </tr>
     </tfoot>
   );

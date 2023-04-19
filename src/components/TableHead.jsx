@@ -4,7 +4,7 @@ function TableHead() {
   return (
     <thead>
       <tr>
-        <th colspan="2"></th>
+        <th colSpan="2"></th>
         <th>Panel Finish</th>
         <th>Panel ID</th>
         <th>Qty</th>
