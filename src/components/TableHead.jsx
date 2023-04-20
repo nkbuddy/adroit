@@ -9,8 +9,8 @@ function TableHead() {
         <th>Panel Finish</th>
         <th>Panel ID</th>
         <th>Qty</th>
-        <th>Width</th>
-        <th>Height</th>
+        <th>Width(inch)</th>
+        <th>Height(inch)</th>
         <th>Hinge Hole</th>
         <th>wood grand</th>
         <th>miter cut</th>

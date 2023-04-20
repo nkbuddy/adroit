@@ -1,6 +1,12 @@
 import React, { useState } from "react";
 import panelFinish from "../panelFinish.js";
-import { Input,Checkbox,NativeSelect,Autocomplete,TextField } from '@mui/material';
+import {
+  Input,
+  Checkbox,
+  NativeSelect,
+  Autocomplete,
+  TextField,
+} from "@mui/material";
 
 function TableBody(props) {
   const [row, setRow] = useState({
@@ -24,17 +30,16 @@ function TableBody(props) {
         [className]: value,
       };
     });
-    props.onUpdate(props.id,row);
+    props.onUpdate(props.id, row);
   }
 
   function handleDelete() {
     props.onDelete(props.id);
   }
 
-  function handleCopy(){
-    props.onCopy(props.id,row);
+  function handleCopy() {
+    props.onCopy(props.id, row);
   }
-
   return (
     <tr>
       <td>
@@ -46,28 +51,26 @@ function TableBody(props) {
       <td>{props.id}</td>
       <td>
         <Autocomplete
-        className="panelFinish"
-        id="grouped-demo"
-        options={panelFinish.sort((a,b)=>-b.label.localeCompare(a.label))}
-        getOptionLabel={(panelFinish)=>panelFinish.label}
-        onChange={handleChange}
-        value={props.panelFinish}
-        renderInput={(params)=>(
-          <TextField{...params}/>
-        )}
+          className="panelFinish"
+          id="grouped-demo"
+          options={panelFinish.sort((a, b) => -b.label.localeCompare(a.label))}
+          getOptionLabel={(panelFinish) => panelFinish.label}
+          onChange={handleChange}
+          value={props.panelFinish}
+          renderInput={(params) => <TextField {...params} />}
+          sx ={{m:1,width:"25ch"}}
         />
       </td>
       <td>
-      <Autocomplete
-        className="panelFinish"
-        id="grouped-demo"
-        options={panelFinish.sort((a,b)=>-b.id.localeCompare(a.id))}
-        getOptionLabel={(panelFinish)=>panelFinish.id}
-        onChange={handleChange}
-        value={props.panelId}
-        renderInput={(params)=>(
-          <TextField{...params}/>
-        )}
+        <Autocomplete
+          className="panelFinish"
+          id="grouped-demo"
+          options={panelFinish.sort((a, b) => -b.id.localeCompare(a.id))}
+          getOptionLabel={(panelFinish) => panelFinish.id}
+          onChange={handleChange}
+          value={props.panelId}
+          renderInput={(params) => <TextField {...params} />}
+          sx ={{m:1,width:"25ch"}}
         />
       </td>
       <td>
@@ -75,7 +78,7 @@ function TableBody(props) {
           type="number"
           className="qty"
           onChange={handleChange}
-          value={row.qty}
+          value={props.qty}
         />
       </td>
       <td>
@@ -99,6 +102,7 @@ function TableBody(props) {
           id="defaultCheck1"
           className="hingeHole"
           onChange={handleChange}
+          checked={props.hingeHole}
           value={props.hingeHole}
         />
       </td>
@@ -107,6 +111,7 @@ function TableBody(props) {
           id="defaultCheck2"
           className="woodGrand"
           onChange={handleChange}
+          checked={props.woodGrand}
           value={props.woodGrand}
         />
       </td>
@@ -115,7 +120,7 @@ function TableBody(props) {
           id="inlineFormCustomSelectPref"
           className="miterCut"
           onChange={handleChange}
-          value={row.miterCut}
+          value={props.miterCut}
         >
           <option defaultValue="None">None</option>
           <option value="Top">Top</option>

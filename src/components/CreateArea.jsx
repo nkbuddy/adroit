@@ -5,38 +5,38 @@ import TableBody from "./TableBody";
 
 function CreateArea() {
   const [rows, setRows] = useState([{
-    panelFinish: "Arctic (White) HG",
-    panelId: "MDAC2001-182S90",
-    qty: "1",
-    width: "123",
-    height: "123",
+    panelFinish: 'Arctic (White) HG',
+    panelId: 'MDAC2001-182S90',
+    qty: 1,
+    width: 43,
+    height: 87,
     hingeHole: false,
     woodGrand: false,
-    miterCut: "None",
-    price: "123",
-    subtotal: "123",
+    miterCut: "Top",
+    price: 100,
+    subtotal: 100,
   },{
     panelFinish: "Stone Grey (Dark Grey) Super Matte",
     panelId: "MDPE3020-181S90",
-    qty: "2",
-    width: "321",
-    height: "321",
+    qty:2,
+    width: 20,
+    height: 32,
     hingeHole: true,
     woodGrand: false,
-    miterCut: "None",
-    price: "321",
-    subtotal: "321",
+    miterCut: "1H",
+    price: 200,
+    subtotal: 400,
   },{
     panelFinish: "Egger Brown Tossini Elm",
     panelId: "PBME1212E-192S33-60110",
-    qty: "3",
-    width: "234",
-    height: "234",
+    qty:3,
+    width: 44,
+    height: 65,
     hingeHole: true,
     woodGrand: true,
-    miterCut: "None",
-    price: "234",
-    subtotal: "234",
+    miterCut: "Bot",
+    price: 300,
+    subtotal: 900,
   }]);
 
   function addRow(newRow) {
@@ -56,8 +56,7 @@ function CreateArea() {
 
   function updateRow(id,newRow) {
     setRows((prevRows) => {
-        prevRows.splice(id,1,newRow)
-        return prevRows;
+      return [...prevRows.slice(0, id), newRow, ...prevRows.slice(id)];
       });
       console.log(rows);
   }
