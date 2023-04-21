@@ -6,9 +6,9 @@ import CreateArea from "./CreateArea";
 function App() {
   return (
     <div className="App">
-      <Topbar/>
-      <Logo/>
-      <CreateArea/>
+      <Topbar />
+        <Logo />
+        <CreateArea />
     </div>
   );
 }

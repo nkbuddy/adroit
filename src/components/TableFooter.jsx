@@ -20,8 +20,8 @@ function TableFooter(props) {
     <tfoot>
       <tr>
         <td colSpan="5" align="right">total items</td>
-        <td>54</td>
-        <td colSpan="7" align="right">$123</td>
+        <td>{props.finalQty}</td>
+        <td colSpan="7" align="right">${props.finalPrice}</td>
       </tr>
 
       <tr>

@@ -4,46 +4,58 @@ import TableFooter from "./TableFooter";
 import TableBody from "./TableBody";
 
 function CreateArea() {
-  const [rows, setRows] = useState([{
-    panelFinish: 'Arctic (White) HG',
-    panelId: 'MDAC2001-182S90',
-    qty: 1,
-    width: 43,
-    height: 87,
-    hingeHole: false,
-    woodGrand: false,
-    miterCut: "Top",
-    price: 100,
-    subtotal: 100,
-  },{
-    panelFinish: "Stone Grey (Dark Grey) Super Matte",
-    panelId: "MDPE3020-181S90",
-    qty:2,
-    width: 20,
-    height: 32,
-    hingeHole: true,
-    woodGrand: false,
-    miterCut: "1H",
-    price: 200,
-    subtotal: 400,
-  },{
-    panelFinish: "Egger Brown Tossini Elm",
-    panelId: "PBME1212E-192S33-60110",
-    qty:3,
-    width: 44,
-    height: 65,
-    hingeHole: true,
-    woodGrand: true,
-    miterCut: "Bot",
-    price: 300,
-    subtotal: 900,
-  }]);
+  const [finalQty, setFinalQty] = useState(0);
+  const [finalTotalPrice, setFinalTotalPrice] = useState(0);
+  let [rows, setRows] = useState([
+    {
+      panelFinish: "Arctic (White) HG",
+      panelId: "MDAC2001-182S90",
+      qty: 1,
+      width: 43,
+      height: 87,
+      hingeHole: false,
+      woodGrand: false,
+      miterCut: "Top",
+      price: 100,
+      subtotal: 100,
+    },
+    {
+      panelFinish: "Stone Grey (Dark Grey) Super Matte",
+      panelId: "MDPE3020-181S90",
+      qty: 2,
+      width: 20,
+      height: 32,
+      hingeHole: true,
+      woodGrand: false,
+      miterCut: "1H",
+      price: 200,
+      subtotal: 400,
+    },
+    {
+      panelFinish: "Egger Brown Tossini Elm",
+      panelId: "PBME1212E-192S33-60110",
+      qty: 3,
+      width: 44,
+      height: 65,
+      hingeHole: true,
+      woodGrand: true,
+      miterCut: "Bot",
+      price: 300,
+      subtotal: 900,
+    },
+  ]);
+
+  function updateRow(id, newRow) {
+    let newArr = [...rows];
+    newArr[id] = newRow;
+    setRows(newArr);
+    console.log(rows);
+  }
 
   function addRow(newRow) {
     setRows((prevRows) => {
       return [...prevRows, newRow];
     });
-    console.log(rows);
   }
 
   function deleteRow(id) {
@@ -54,20 +66,17 @@ function CreateArea() {
     });
   }
 
-  function updateRow(id,newRow) {
+  function copyRow(id, newRow) {
     setRows((prevRows) => {
-      return [...prevRows.slice(0, id), newRow, ...prevRows.slice(id)];
-      });
-      console.log(rows);
+      // prevRows.splice(id+1,0,newRow)
+      // console.log(prevRows);
+      return [...prevRows.slice(0, id + 1), newRow, ...prevRows.slice(id + 1)];
+    });
+    console.log(rows);
   }
 
-  function copyRow(id,newRow) {
-    setRows((prevRows) => {
-        // prevRows.splice(id+1,0,newRow)
-        // console.log(prevRows);
-        return [...prevRows.slice(0, id + 1), newRow, ...prevRows.slice(id + 1)];
-      });
-      console.log(rows);
+  function addTotol(price){
+    setFinalTotalPrice(price);
   }
 
   return (
@@ -90,13 +99,15 @@ function CreateArea() {
               price={rowItem.price}
               subtotal={rowItem.subtotal}
               onDelete={deleteRow}
+              onCopy={copyRow}
               onUpdate={updateRow}
-              onCopy = {copyRow}
+              onFinalQty = {setFinalQty}
+              onFinalTotalPrice = {addTotol}
             />
           );
         })}
       </tbody>
-      <TableFooter onAdd={addRow} />
+      <TableFooter onAdd={addRow} finalQty={finalQty} finalPrice={finalTotalPrice} />
     </table>
   );
 }
