@@ -3,6 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 function Topbar() {
   return (
+    <header>
     <nav
     className="navbar navbar-expand-lg bg-body-tertiary rounded"
       aria-label="Thirteenth navbar example"
@@ -22,21 +23,41 @@ function Topbar() {
 
         <div className="collapse navbar-collapse d-lg-flex" id="navbarsExample11">
           <a className="navbar-brand col-lg-3 me-0" href="nav">
-            Centered nav
+            
+            <img
+        src="https://adroitmanufacturing.allmoxy.com/data/header/Adroit_logo_3d-01-01.png"
+        alt="adroit-manufacturing-logo"
+        width={120}
+        height={50}
+      />
           </a>
           <ul className="navbar-nav col-lg-6 justify-content-lg-center">
-            <li className="nav-item">
-              <a className="nav-link active" aria-current="page" href="page">
-                Home
+            <li className="nav-item dropdown">
+              <a
+                className="nav-link dropdown-toggle"
+                href="dropdown-toggle"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                <i class="bi bi-star-fill"></i>
               </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" href="link">
-                Link
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link disabled" href="dropdown-toggle">Disabled</a>
+              <ul className="dropdown-menu">
+                <li>
+                  <a className="dropdown-item" href="dropdown">
+                    Action
+                  </a>
+                </li>
+                <li>
+                  <a className="dropdown-item" href="dropdown">
+                    Another action
+                  </a>
+                </li>
+                <li>
+                  <a className="dropdown-item" href="dropdown">
+                    Something else here
+                  </a>
+                </li>
+              </ul>
             </li>
             <li className="nav-item dropdown">
               <a
@@ -45,7 +66,88 @@ function Topbar() {
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
-                Dropdown
+                <i class="bi bi-cart-fill"></i>
+              </a>
+              <ul className="dropdown-menu">
+                <li>
+                  <a className="dropdown-item" href="dropdown">
+                    Action
+                  </a>
+                </li>
+                <li>
+                  <a className="dropdown-item" href="dropdown">
+                    Another action
+                  </a>
+                </li>
+                <li>
+                  <a className="dropdown-item" href="dropdown">
+                    Something else here
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li className="nav-item dropdown">
+              <a
+                className="nav-link dropdown-toggle"
+                href="dropdown-toggle"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                <i class="bi bi-pie-chart-fill"></i>
+              </a>
+              <ul className="dropdown-menu">
+                <li>
+                  <a className="dropdown-item" href="dropdown">
+                    Action
+                  </a>
+                </li>
+                <li>
+                  <a className="dropdown-item" href="dropdown">
+                    Another action
+                  </a>
+                </li>
+                <li>
+                  <a className="dropdown-item" href="dropdown">
+                    Something else here
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li className="nav-item dropdown">
+              <a
+                className="nav-link dropdown-toggle"
+                href="dropdown-toggle"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                <i class="bi bi-gear-fill"></i>
+              </a>
+              <ul className="dropdown-menu">
+                <li>
+                  <a className="dropdown-item" href="dropdown">
+                    Action
+                  </a>
+                </li>
+                <li>
+                  <a className="dropdown-item" href="dropdown">
+                    Another action
+                  </a>
+                </li>
+                <li>
+                  <a className="dropdown-item" href="dropdown">
+                    Something else here
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li className="nav-item dropdown">
+              <a
+                className="nav-link dropdown-toggle"
+                href="dropdown-toggle"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                <i class="bi bi-bell-fill"></i>
               </a>
               <ul className="dropdown-menu">
                 <li>
@@ -72,6 +174,7 @@ function Topbar() {
         </div>
       </div>
     </nav>
+    </header>
   );
 }
 export default Topbar;

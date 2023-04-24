@@ -1,4 +1,5 @@
 import React from "react";
+import {finalPrice,finalQty} from "./TableBody"
 
 function TableFooter(props) {
     const row = {
@@ -20,8 +21,8 @@ function TableFooter(props) {
     <tfoot>
       <tr>
         <td colSpan="5" align="right">total items</td>
-        <td>{props.finalQty}</td>
-        <td colSpan="7" align="right">${props.finalPrice}</td>
+        <td>{finalQty}</td>
+        <td colSpan="7" align="right">${finalPrice}</td>
       </tr>
 
       <tr>

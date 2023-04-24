@@ -4,8 +4,6 @@ import TableFooter from "./TableFooter";
 import TableBody from "./TableBody";
 
 function CreateArea() {
-  const [finalQty, setFinalQty] = useState(0);
-  const [finalTotalPrice, setFinalTotalPrice] = useState(0);
   let [rows, setRows] = useState([
     {
       panelFinish: "Arctic (White) HG",
@@ -75,9 +73,6 @@ function CreateArea() {
     console.log(rows);
   }
 
-  function addTotol(price){
-    setFinalTotalPrice(price);
-  }
 
   return (
     <table className="table table-hover table-sm table-responsive-sm">
@@ -101,13 +96,11 @@ function CreateArea() {
               onDelete={deleteRow}
               onCopy={copyRow}
               onUpdate={updateRow}
-              onFinalQty = {setFinalQty}
-              onFinalTotalPrice = {addTotol}
             />
           );
         })}
       </tbody>
-      <TableFooter onAdd={addRow} finalQty={finalQty} finalPrice={finalTotalPrice} />
+      <TableFooter onAdd={addRow}/>
     </table>
   );
 }
