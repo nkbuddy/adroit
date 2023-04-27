@@ -144,6 +144,8 @@ form.create-note button {
   transition: margin-left .5s;
   padding: 16px;
   margin-right: 250px;
+  height: calc(100vh-55px);
+  overflow-y: auto;
 }
 
 @media screen and (max-height: 450px) {
