@@ -169,7 +169,7 @@ function Topbar() {
             </li>
           </ul>
           <div className="d-lg-flex col-lg-3 justify-content-lg-end">
-            <button className="btn btn-primary">Button</button>
+            <i class="bi bi-person-circle btn" style={{"font-size": "28px"}}></i>
           </div>
         </div>
       </div>
