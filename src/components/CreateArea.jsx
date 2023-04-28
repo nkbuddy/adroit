@@ -5,10 +5,10 @@ import TableBody from "./TableBody";
 import ReadOnly from "./ReadOnly";
 import { nanoid } from "nanoid";
 
-
 function CreateArea() {
   const [items, setItems] = useState([
-    {id:0,
+    {
+      id: 0,
       panelFinish: "Arctic (White) HG",
       panelId: "MDAC2001-182S90",
       qty: 1,
@@ -20,7 +20,8 @@ function CreateArea() {
       price: 100,
       subtotal: 100,
     },
-    {id:1,
+    {
+      id: 1,
       panelFinish: "Stone Grey (Dark Grey) Super Matte",
       panelId: "MDPE3020-181S90",
       qty: 2,
@@ -32,7 +33,8 @@ function CreateArea() {
       price: 200,
       subtotal: 400,
     },
-    {id:2,
+    {
+      id: 2,
       panelFinish: "Egger Brown Tossini Elm",
       panelId: "PBME1212E-192S33-60110",
       qty: 3,
@@ -146,7 +148,7 @@ function CreateArea() {
             );
           })}
         </tbody>
-        <TableFooter onAdd={addRow} />
+        <TableFooter items={items} onAdd={addRow} />
       </table>
       <table className="table table-hover table-sm table-responsive-sm">
         <TableHead />
@@ -154,13 +156,14 @@ function CreateArea() {
           {items.map((rowItem) => {
             return (
               <ReadOnly
-                item = {rowItem}
+                item={rowItem}
                 handleDeleteClick={deleteRow}
                 handleCopyClick={copyRow}
               />
             );
           })}
         </tbody>
+        <TableFooter items={items} onAdd={addRow} />
       </table>
     </Fragment>
   );
