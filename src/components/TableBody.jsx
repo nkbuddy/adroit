@@ -149,6 +149,7 @@ function TableBody(props) {
       <td>
         <Autocomplete
           disablePortal
+          className="panelId"
           id="combo-box-demo"
           disableClearable={true}
           options={panelFinish.sort((a, b) => -b.label.localeCompare(a.label))}
