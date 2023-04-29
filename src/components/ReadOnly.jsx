@@ -1,8 +1,6 @@
-import React from "react";
+import React, { Fragment } from "react";
 
-let itemSubtotal=0;
 function ReadOnly({ item, handleDeleteClick, handleCopyClick,}) {
-  
   return (
     <tr>
       <td>

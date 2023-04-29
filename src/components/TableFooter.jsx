@@ -6,8 +6,8 @@ function TableFooter(props) {
   let testTotel = 0;
   let totalQty = 0;
   for (let row in items) {
-    testTotel += items[row].subtotal;
-    totalQty += items[row].qty;
+    testTotel += Number(items[row].subtotal);
+    totalQty += Number(items[row].qty);
   }
   function handleClick() {
     props.onAdd();
@@ -25,10 +25,10 @@ function TableFooter(props) {
       </tr>
 
       <tr>
-        <td colSpan="1">
+        <td colSpan="4">
           <i className="bi bi-plus-circle-fill" onClick={handleClick}></i>
+          add row
         </td>
-        <td>add row</td>
       </tr>
     </tfoot>
   );

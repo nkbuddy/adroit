@@ -4,6 +4,8 @@ import TableFooter from "./TableFooter";
 import TableBody from "./TableBody";
 import ReadOnly from "./ReadOnly";
 import { nanoid } from "nanoid";
+import NewTableBody from "./NewTableBody";
+import panelFinishList from "../panelFinish.js";
 
 function CreateArea() {
   const [items, setItems] = useState([
@@ -49,8 +51,13 @@ function CreateArea() {
   ]);
 
   function updateRow(event, itemId, item) {
-    const fieldName = event.target.getAttribute("className");
-    const fieldValue = event.target.value;
+    const fieldName = event.target.getAttribute("name");
+    let fieldValue;
+    if (fieldName == "hingeHole" || fieldName == "woodGrand") {
+      fieldValue = event.target.checked;
+    } else {
+      fieldValue = event.target.value;
+    }
     const newData = { ...item };
     newData[fieldName] = fieldValue;
 
@@ -68,6 +75,48 @@ function CreateArea() {
       subtotal: newData.subtotal,
     };
 
+    const newItems = [...items];
+    const index = items.findIndex((item) => item.id === itemId);
+    newItems[index] = editedItem;
+    setItems(newItems);
+  }
+
+  function updateTwo(event, itemId, item) {
+    console.log(event);
+    const newData = { ...item };
+    const fieldName = event.target.getAttribute("name");
+    const fieldValue = event.target.value;
+    const Sindex = panelFinishList.findIndex(
+      (item) => item.label == fieldValue || item.id == fieldValue
+    );
+    if(fieldName==="panelFinish"){
+      const fieldName1 = "panelFinish";
+      const fieldName2 = "panelId";
+      newData[fieldName1] = fieldValue;
+      if (Sindex != -1) {
+           newData[fieldName2] = panelFinishList[Sindex].id;
+        }
+    }else if(fieldName==="panelId"){
+      const fieldName1 = "panelId";
+      const fieldName2 = "panelFinish";
+      newData[fieldName1] = fieldValue;
+      if (Sindex != -1) {
+        newData[fieldName2] = panelFinishList[Sindex].label;
+     }
+    }
+    const editedItem = {
+      id: itemId,
+      panelFinish: newData.panelFinish,
+      panelId: newData.panelId,
+      qty: newData.qty,
+      width: newData.width,
+      height: newData.height,
+      hingeHole: newData.hingeHole,
+      woodGrand: newData.woodGrand,
+      miterCut: newData.miterCut,
+      price: newData.price,
+      subtotal: newData.subtotal,
+    };
     const newItems = [...items];
     const index = items.findIndex((item) => item.id === itemId);
     newItems[index] = editedItem;
@@ -116,7 +165,7 @@ function CreateArea() {
       price: 0,
       subtotal: 0,
     };
-
+    newItem.id = nanoid();
     const newItems = [...items, newItem];
     setItems(newItems);
   }
@@ -126,24 +175,15 @@ function CreateArea() {
       <table className="table table-hover table-sm table-responsive-sm">
         <TableHead />
         <tbody>
-          {items.map((rowItem, index) => {
+          {items.map((rowItem) => {
             return (
-              <TableBody
-                key={index}
-                id={index}
-                panelFinish={rowItem.panelFinish}
-                panelId={rowItem.panelId}
-                qty={rowItem.qty}
-                width={rowItem.width}
-                height={rowItem.height}
-                hingeHole={rowItem.hingeHole}
-                woodGrand={rowItem.woodGrand}
-                miterCut={rowItem.miterCut}
-                price={rowItem.price}
-                subtotal={rowItem.subtotal}
-                onDelete={deleteRow}
-                onCopy={copyRow}
-                onUpdate={updateRow}
+              <NewTableBody
+                key={rowItem.id}
+                item={rowItem}
+                handleDeleteClick={deleteRow}
+                handleCopyClick={copyRow}
+                handleEditAllInOne={updateRow}
+                handleEditTwo={updateTwo}
               />
             );
           })}
@@ -156,6 +196,7 @@ function CreateArea() {
           {items.map((rowItem) => {
             return (
               <ReadOnly
+                key={rowItem.id}
                 item={rowItem}
                 handleDeleteClick={deleteRow}
                 handleCopyClick={copyRow}

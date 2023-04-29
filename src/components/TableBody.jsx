@@ -9,8 +9,6 @@ import {
   FilledInput
 } from "@mui/material";
 
-var finalQty = 0;
-var finalPrice = 0;
 
 function TableBody(props) {
   const [row, setRow] = useState({
@@ -102,8 +100,6 @@ function TableBody(props) {
 
   let unit_price = calculation() / Qty;
   unit_price = +(Math.round(unit_price + "e+2") + "e-2");
-  finalQty += Qty;
-  finalPrice +=unit_price;
 
   function handleChange(event) {
     const { className, value } = event.target;
@@ -248,4 +244,3 @@ function TableBody(props) {
 }
 
 export default TableBody;
-export {finalPrice,finalQty};
