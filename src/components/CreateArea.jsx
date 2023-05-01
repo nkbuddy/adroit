@@ -50,6 +50,56 @@ function CreateArea() {
     },
   ]);
 
+  function mycal(PL, obj) {
+    const height = Number(obj.height);
+    const width = Number(obj.width);
+    const qty = Number(obj.qty);
+    let panel_value = 0;
+    let unit_price = 0;
+    let discount = 0;
+    const Sindex = PL.findIndex(
+      (pitem) => pitem.label == obj.panelFinish || pitem.id == obj.panelId
+    );
+    if (Sindex != -1) {
+      panel_value = Number(PL[Sindex].value);
+    }
+    if (obj.hingeHole) {
+      if (height < 38.875) {
+        unit_price += 2;
+      } else if (height < 64.375) {
+        unit_price += 3;
+      } else if (height < 79.375) {
+        unit_price += 4;
+      } else if (height < 95.875) {
+        unit_price += 5;
+      }
+    }
+
+    if (obj.woodGrand) unit_price += 15;
+    if (obj.miterCut != "None") unit_price += 15;
+    let sizeOfDoor = (width * height) / 144;
+    if (sizeOfDoor <= 1.5) sizeOfDoor = 1.5;
+
+    unit_price += panel_value * sizeOfDoor;
+    let subtotal = qty * unit_price;
+    if (sizeOfDoor >= 1.5 && sizeOfDoor <= 3) {
+      discount = 1;
+    } else if (sizeOfDoor > 3.0 && sizeOfDoor <= 6.0) {
+      discount = 0.9;
+    } else if (sizeOfDoor > 6.0 && sizeOfDoor <= 9.0) {
+      discount = 0.85;
+    } else if (sizeOfDoor > 9.0 && sizeOfDoor <= 13.0) {
+      discount = 0.8;
+    } else if (sizeOfDoor > 13.0 && sizeOfDoor <= 30.0) {
+      discount = 0.75;
+    }
+    subtotal *= discount;
+    subtotal = Math.round(subtotal * 100) / 100;
+    unit_price = subtotal / obj.qty;
+    unit_price = Math.round(unit_price * 100) / 100;
+    return [unit_price, subtotal];
+  }
+
   function updateRow(event, itemId, item) {
     const fieldName = event.target.getAttribute("name");
     let fieldValue;
@@ -60,6 +110,11 @@ function CreateArea() {
     }
     const newData = { ...item };
     newData[fieldName] = fieldValue;
+    const priceArr = mycal(panelFinishList,newData);
+    const priceField =  "price";
+    const sutotalField =  "subtotal";
+    newData[priceField] = priceArr[0];
+    newData[sutotalField] = priceArr[1];
 
     const editedItem = {
       id: itemId,
@@ -80,6 +135,7 @@ function CreateArea() {
     newItems[index] = editedItem;
     setItems(newItems);
   }
+
 
   function updateTwo(event, itemId, item) {
     console.log(event);
@@ -104,6 +160,12 @@ function CreateArea() {
         newData[fieldName2] = panelFinishList[Sindex].label;
      }
     }
+    const priceArr = mycal(panelFinishList,newData);
+    const priceField =  "price";
+    const sutotalField =  "subtotal";
+    newData[priceField] = priceArr[0];
+    newData[sutotalField] = priceArr[1];
+    
     const editedItem = {
       id: itemId,
       panelFinish: newData.panelFinish,
