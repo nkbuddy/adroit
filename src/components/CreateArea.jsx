@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useRef } from "react";
 import TableHead from "./TableHead";
 import TableFooter from "./TableFooter";
 import TableBody from "./TableBody";
@@ -6,6 +6,7 @@ import ReadOnly from "./ReadOnly";
 import { nanoid } from "nanoid";
 import NewTableBody from "./NewTableBody";
 import panelFinishList from "../panelFinish.js";
+import { useReactToPrint } from "react-to-print";
 
 function CreateArea() {
   const [items, setItems] = useState([
@@ -56,7 +57,7 @@ function CreateArea() {
     const qty = Number(obj.qty);
     let panel_value = 0;
     let unit_price = 0;
-    let discount = 0;
+    let discount = 1;
     const Sindex = PL.findIndex(
       (pitem) => pitem.label == obj.panelFinish || pitem.id == obj.panelId
     );
@@ -82,9 +83,7 @@ function CreateArea() {
 
     unit_price += panel_value * sizeOfDoor;
     let subtotal = qty * unit_price;
-    if (sizeOfDoor >= 1.5 && sizeOfDoor <= 3) {
-      discount = 1;
-    } else if (sizeOfDoor > 3.0 && sizeOfDoor <= 6.0) {
+    if (sizeOfDoor > 3.0 && sizeOfDoor <= 6.0) {
       discount = 0.9;
     } else if (sizeOfDoor > 6.0 && sizeOfDoor <= 9.0) {
       discount = 0.85;
@@ -97,6 +96,19 @@ function CreateArea() {
     subtotal = Math.round(subtotal * 100) / 100;
     unit_price = subtotal / obj.qty;
     unit_price = Math.round(unit_price * 100) / 100;
+
+    if (width <= 0 || width > 47.875){
+      unit_price = NaN;
+      subtotal = NaN;
+    }
+    if (height <= 0 || height > 95.875){
+      unit_price = NaN;
+      subtotal = NaN;
+    }
+    if (qty <= 0){
+      unit_price = NaN;
+      subtotal = NaN;
+    }
     return [unit_price, subtotal];
   }
 
@@ -110,9 +122,9 @@ function CreateArea() {
     }
     const newData = { ...item };
     newData[fieldName] = fieldValue;
-    const priceArr = mycal(panelFinishList,newData);
-    const priceField =  "price";
-    const sutotalField =  "subtotal";
+    const priceArr = mycal(panelFinishList, newData);
+    const priceField = "price";
+    const sutotalField = "subtotal";
     newData[priceField] = priceArr[0];
     newData[sutotalField] = priceArr[1];
 
@@ -136,7 +148,6 @@ function CreateArea() {
     setItems(newItems);
   }
 
-
   function updateTwo(event, itemId, item) {
     console.log(event);
     const newData = { ...item };
@@ -145,27 +156,27 @@ function CreateArea() {
     const Sindex = panelFinishList.findIndex(
       (item) => item.label == fieldValue || item.id == fieldValue
     );
-    if(fieldName==="panelFinish"){
+    if (fieldName === "panelFinish") {
       const fieldName1 = "panelFinish";
       const fieldName2 = "panelId";
       newData[fieldName1] = fieldValue;
       if (Sindex != -1) {
-           newData[fieldName2] = panelFinishList[Sindex].id;
-        }
-    }else if(fieldName==="panelId"){
+        newData[fieldName2] = panelFinishList[Sindex].id;
+      }
+    } else if (fieldName === "panelId") {
       const fieldName1 = "panelId";
       const fieldName2 = "panelFinish";
       newData[fieldName1] = fieldValue;
       if (Sindex != -1) {
         newData[fieldName2] = panelFinishList[Sindex].label;
-     }
+      }
     }
-    const priceArr = mycal(panelFinishList,newData);
-    const priceField =  "price";
-    const sutotalField =  "subtotal";
+    const priceArr = mycal(panelFinishList, newData);
+    const priceField = "price";
+    const sutotalField = "subtotal";
     newData[priceField] = priceArr[0];
     newData[sutotalField] = priceArr[1];
-    
+
     const editedItem = {
       id: itemId,
       panelFinish: newData.panelFinish,
@@ -232,9 +243,18 @@ function CreateArea() {
     setItems(newItems);
   }
 
+  const componentPDF = useRef();
+  const generatePDF = useReactToPrint({
+    content: () => componentPDF.current,
+    documentTile: "UserData",
+  });
+
   return (
     <Fragment>
-      <table className="table table-hover table-sm table-responsive-sm">
+      <table
+        className="table table-hover table-sm table-responsive-sm"
+        id="my-table"
+      >
         <TableHead />
         <tbody>
           {items.map((rowItem) => {
@@ -250,9 +270,12 @@ function CreateArea() {
             );
           })}
         </tbody>
-        <TableFooter items={items} onAdd={addRow} />
+        <TableFooter items={items} onAdd={addRow} printPDF={generatePDF} />
       </table>
-      <table className="table table-hover table-sm table-responsive-sm">
+      <table
+        className="table table-hover table-sm table-responsive-sm"
+        ref={componentPDF}
+      >
         <TableHead />
         <tbody>
           {items.map((rowItem) => {
@@ -266,7 +289,7 @@ function CreateArea() {
             );
           })}
         </tbody>
-        <TableFooter items={items} onAdd={addRow} />
+        <TableFooter items={items} onAdd={addRow} printPDF={generatePDF} />
       </table>
     </Fragment>
   );
