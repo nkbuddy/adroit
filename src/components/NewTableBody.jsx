@@ -1,13 +1,74 @@
-import React, { useState } from "react";
+import React,{useState,useEffect} from "react";
 import panelFinishList from "../panelFinish.js";
 
 function NewTableBody({
   item,
+  ItemNum,
   handleDeleteClick,
   handleCopyClick,
   handleEditAllInOne,
   handleEditTwo,
 }) {
+  const [widthValue, setWidthValue] = useState(false);
+  const [heightValue, setHeightValue] = useState(false);
+  const [widthDecimal, setWidthDecimal] = useState(false);
+  const [heightDecimal, setHeightDecimal] = useState(false);
+  const [qtyInteger, setQtyInteger] = useState(false);
+
+  function isValidNumber(number) {
+    const regex = /^\d+(\.\d{1,3})?$/;
+    return regex.test(number);
+  }
+  function isPositiveInteger(input) {
+    return /^[1-9]\d*$/.test(input);
+  }  
+
+  useEffect(() => {
+    //if is in range
+    if (item.width <= 0 || item.width > 47.875) {
+      setWidthValue(false);
+    } else {
+      setWidthValue(true);
+    }
+    if (item.height <= 0 || item.height > 95.875){
+      setHeightValue(false);
+    }
+    else{
+      setHeightValue(true);
+    }
+    //if is in three decimal
+    if(!isValidNumber(item.width) ){
+      if(isNaN(item.width)){
+        setWidthDecimal(true);
+      }
+      else
+      setWidthDecimal (false);
+    }
+    else
+    setWidthDecimal (true);
+
+    if (!isValidNumber(item.height)){
+      if(isNaN(item.height)){
+        setHeightDecimal(true);
+      }
+      else
+      setHeightDecimal(false);
+    }
+    else
+    setHeightDecimal(true);
+    // if qty is integer
+
+    if (!isPositiveInteger(item.qty)){
+      if(isNaN(item.qty)){
+        setQtyInteger(true);
+      }
+      else
+      setQtyInteger(false);
+    }
+    else
+    setQtyInteger(true);
+    //if qty is bigger than 0 
+  }, [item.width, item.height, item.qty]);
 
   return (
     <tr>
@@ -18,14 +79,18 @@ function NewTableBody({
         ></i>
       </td>
       <td>
-        <i className="bi bi-files btn" onClick={() => handleCopyClick(item.id)}></i>
+        <i
+          className="bi bi-files btn"
+          onClick={() => handleCopyClick(item.id)}
+        ></i>
       </td>
-      <td>{item.id}</td>
+      <td className="text-center">{ItemNum + 1}</td>
       <td>
         <input
           type="text"
           list="data"
-          class="form-control"
+          className="form-control"
+          style={{ width: "18em" }}
           placeholder="select panel"
           name="panelFinish"
           value={item.panelFinish}
@@ -41,7 +106,7 @@ function NewTableBody({
         <input
           type="text"
           list="data2"
-          class="form-control"
+          className="form-control"
           placeholder="select panel"
           name="panelId"
           value={item.panelId}
@@ -57,29 +122,51 @@ function NewTableBody({
         <input
           type="number"
           name="qty"
+          className={qtyInteger === false ? "form-control is-invalid" : "form-control"}
           value={item.qty}
           onChange={(event) => handleEditAllInOne(event, item.id, item)}
+          style={{ width: "5em" }}
         />
+        {qtyInteger === false && (
+          <div className="invalid-feedback">Please enter non zero hole number</div>
+        )}
       </td>
       <td>
         <input
           type="number"
           name="width"
+          className={widthValue === false ? "form-control is-invalid" : "form-control"}
           value={item.width}
+          style={{ width: "6em" }}
           onChange={(event) => handleEditAllInOne(event, item.id, item)}
         />
+        {widthValue === false && (
+          <div className="invalid-feedback">Please enter value not zero and less than 47.875</div>
+        )}
+        {widthDecimal === false && (
+          <div className="invalid-feedback">Please enter less than 4 decimal place</div>
+        )}
       </td>
       <td>
         <input
           type="number"
           name="height"
+          className={heightValue === false ? "form-control is-invalid" : "form-control"}
           value={item.height}
+          style={{ width: "6em" }}
           onChange={(event) => handleEditAllInOne(event, item.id, item)}
         />
+        {heightValue === false && (
+          <div className="invalid-feedback">Please enter value not zero and less than 95.875</div>
+        )}
+        {heightDecimal === false && (
+          <div className="invalid-feedback">Please enter less than 4 decimal place</div>
+        )}
       </td>
       <td>
         <input
           type="checkbox"
+          className="form-check-input"
           id="defaultCheck1"
           name="hingeHole"
           checked={item.hingeHole}
@@ -89,6 +176,7 @@ function NewTableBody({
       <td>
         <input
           type="checkbox"
+          className="form-check-input"
           id="defaultCheck2"
           name="woodGrand"
           checked={item.woodGrand}
@@ -98,6 +186,7 @@ function NewTableBody({
       <td>
         <select
           id="inlineFormCustomSelectPref"
+          className="form-select w-auto"
           name="miterCut"
           value={item.miterCut}
           onChange={(event) => handleEditAllInOne(event, item.id, item)}
@@ -109,10 +198,26 @@ function NewTableBody({
         </select>
       </td>
       <td>
-        <input name="price" type="number" value={item.price} readOnly />
+        <input
+          name="price"
+          type="number"
+          className="form-control bg-light rounded-pill"
+          value={item.price}
+          style={{ width: "6em" }}
+          readOnly
+          disabled
+        />
       </td>
       <td>
-        <input name="Subtotal" type="number" value={item.subtotal} readOnly />
+        <input
+          name="Subtotal"
+          className="form-control bg-light rounded-pill"
+          type="number"
+          value={item.subtotal}
+          style={{ width: "6em" }}
+          readOnly
+          disabled
+        />
       </td>
     </tr>
   );

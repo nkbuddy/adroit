@@ -1,7 +1,6 @@
 import React, { Fragment, useState, useRef } from "react";
 import TableHead from "./TableHead";
 import TableFooter from "./TableFooter";
-import TableBody from "./TableBody";
 import ReadOnly from "./ReadOnly";
 import { nanoid } from "nanoid";
 import NewTableBody from "./NewTableBody";
@@ -97,15 +96,15 @@ function CreateArea() {
     unit_price = subtotal / obj.qty;
     unit_price = Math.round(unit_price * 100) / 100;
 
-    if (width <= 0 || width > 47.875){
+    if (width <= 0 || width > 47.875) {
       unit_price = NaN;
       subtotal = NaN;
     }
-    if (height <= 0 || height > 95.875){
+    if (height <= 0 || height > 95.875) {
       unit_price = NaN;
       subtotal = NaN;
     }
-    if (qty <= 0){
+    if (qty <= 0) {
       unit_price = NaN;
       subtotal = NaN;
     }
@@ -225,23 +224,45 @@ function CreateArea() {
     setItems(newItems);
   }
 
-  function addRow() {
-    const newItem = {
-      panelFinish: "",
-      panelId: "",
-      qty: 0,
-      width: 0,
-      height: 0,
-      hingeHole: false,
-      woodGrand: false,
-      miterCut: "None",
-      price: 0,
-      subtotal: 0,
-    };
-    newItem.id = nanoid();
-    const newItems = [...items, newItem];
-    setItems(newItems);
+  function addRow(n) {
+    const newItems = [];
+    for (let i = 0; i < n; i++) {
+      const newItem = {
+        panelFinish: "",
+        panelId: "",
+        qty: NaN,
+        width: NaN,
+        height: NaN,
+        hingeHole: false,
+        woodGrand: false,
+        miterCut: "None",
+        price: NaN,
+        subtotal: NaN,
+        id: nanoid(),
+      };
+      newItems.push(newItem);
+    }
+    const newItemsAdd = [...items, ...newItems];
+    setItems(newItemsAdd);
   }
+
+  // function addRowTest(){
+  //   const newItem = {
+  //     panelFinish: "",
+  //     panelId: "",
+  //     qty: 0,
+  //     width: 0,
+  //     height: 0,
+  //     hingeHole: false,
+  //     woodGrand: false,
+  //     miterCut: "None",
+  //     price: 0,
+  //     subtotal: 0,
+  //   };
+  //   newItem.id = nanoid();
+  //   const newItems = [...items, newItem];
+  //   setItems(newItems);
+  // }
 
   const componentPDF = useRef();
   const generatePDF = useReactToPrint({
@@ -257,10 +278,11 @@ function CreateArea() {
       >
         <TableHead />
         <tbody>
-          {items.map((rowItem) => {
+          {items.map((rowItem, index) => {
             return (
               <NewTableBody
-                key={rowItem.id}
+                key={index}
+                ItemNum={index}
                 item={rowItem}
                 handleDeleteClick={deleteRow}
                 handleCopyClick={copyRow}
@@ -278,10 +300,11 @@ function CreateArea() {
       >
         <TableHead />
         <tbody>
-          {items.map((rowItem) => {
+          {items.map((rowItem, index) => {
             return (
               <ReadOnly
-                key={rowItem.id}
+                key={index}
+                ItemNum={index}
                 item={rowItem}
                 handleDeleteClick={deleteRow}
                 handleCopyClick={copyRow}

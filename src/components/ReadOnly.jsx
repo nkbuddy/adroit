@@ -1,7 +1,8 @@
 import React, { Fragment } from "react";
 
-function ReadOnly({ item, handleDeleteClick, handleCopyClick,}) {
+function ReadOnly({ item, handleDeleteClick, handleCopyClick,ItemNum}) {
   return (
+    <Fragment>
     <tr>
       <td>
         <i
@@ -38,6 +39,7 @@ function ReadOnly({ item, handleDeleteClick, handleCopyClick,}) {
       <td>{item.price}</td>
       <td>{item.subtotal}</td>
     </tr>
+    </Fragment>
   );
 }
 export default ReadOnly;
