@@ -9,11 +9,11 @@ function NewTableBody({
   handleEditAllInOne,
   handleEditTwo,
 }) {
-  const [widthValue, setWidthValue] = useState(false);
-  const [heightValue, setHeightValue] = useState(false);
-  const [widthDecimal, setWidthDecimal] = useState(false);
-  const [heightDecimal, setHeightDecimal] = useState(false);
-  const [qtyInteger, setQtyInteger] = useState(false);
+  const [widthValue, setWidthValue] = useState(true);
+  const [heightValue, setHeightValue] = useState(true);
+  const [widthDecimal, setWidthDecimal] = useState(true);
+  const [heightDecimal, setHeightDecimal] = useState(true);
+  const [qtyInteger, setQtyInteger] = useState(true);
 
   function isValidNumber(number) {
     const regex = /^\d+(\.\d{1,3})?$/;

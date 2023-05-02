@@ -246,24 +246,6 @@ function CreateArea() {
     setItems(newItemsAdd);
   }
 
-  // function addRowTest(){
-  //   const newItem = {
-  //     panelFinish: "",
-  //     panelId: "",
-  //     qty: 0,
-  //     width: 0,
-  //     height: 0,
-  //     hingeHole: false,
-  //     woodGrand: false,
-  //     miterCut: "None",
-  //     price: 0,
-  //     subtotal: 0,
-  //   };
-  //   newItem.id = nanoid();
-  //   const newItems = [...items, newItem];
-  //   setItems(newItems);
-  // }
-
   const componentPDF = useRef();
   const generatePDF = useReactToPrint({
     content: () => componentPDF.current,
