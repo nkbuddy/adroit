@@ -107,7 +107,7 @@ function NewTableBody({
           type="text"
           list="data2"
           className="form-control"
-          placeholder="select panel"
+          placeholder="select panel ID"
           name="panelId"
           value={item.panelId}
           onChange={(event) => handleEditTwo(event, item.id, item)}
