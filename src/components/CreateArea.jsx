@@ -6,47 +6,9 @@ import { nanoid } from "nanoid";
 import NewTableBody from "./NewTableBody";
 import panelFinishList from "../panelFinish.js";
 import { useReactToPrint } from "react-to-print";
-import * as XLSX from "xlsx";
 
 function CreateArea() {
-  const handleFileUpload = (e) => {
-    const file = e.target.files[0];
-
-    // Check if the file is an Excel file
-    if (
-      !file ||
-      (!file.name.endsWith(".xlsx") && !file.name.endsWith(".csv")) ||
-      !file.type ===
-        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-    ) {
-      alert("Please select an Excel file (XLSX)");
-      return;
-    }
-    const reader = new FileReader();
-    reader.readAsBinaryString(file);
-    reader.onload = (e) => {
-      const items = e.target.result;
-
-      const workbook = XLSX.read(items, { type: "binary" });
-      const sheetName = workbook.SheetNames[0];
-      const sheet = workbook.Sheets[sheetName];
-      let parsedData = XLSX.utils.sheet_to_json(sheet);
-      for (let row in parsedData) {
-        console.log(parsedData[0].hingeHole);
-        if (parsedData[row].hingeHole === "false") {
-          parsedData[row].hingeHole = false;
-        } else if (parsedData[row].hingeHole === "true") {
-          parsedData[row].hingeHole = true;
-        }
-        if (parsedData[row].woodGrand === "false") {
-          parsedData[row].woodGrand = false;
-        } else if (parsedData[row].woodGrand === "true") {
-          parsedData[row].woodGrand = true;
-        }
-      }
-      setItems(parsedData);
-    };
-  };
+  
 
   const [items, setItems] = useState([
     {
@@ -379,7 +341,6 @@ function CreateArea() {
         type="file"
         accept=".xlsx, .xls .csv"
         className="form-control bg-light rounded-pill"
-        onChange={handleFileUpload}
       />
     </Fragment>
   );
