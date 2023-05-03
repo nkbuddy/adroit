@@ -11,25 +11,25 @@ function RightSideBar() {
       </div>
       <a href="b">ORDER INFO</a>
       <div>
-        <input placeholder="Order Name"></input>
-        <textarea placeholder="Description"></textarea>
-        <input type={Date} placeholder="date"></input>
+        <input  className="form-control" placeholder="Order Name"></input>
+        <textarea className="form-control" placeholder="Description"></textarea>
+        <input className="form-control" type={Date} placeholder="date"></input>
       </div>
       <a href="c">BILLING</a>
       <div>
-        <input placeholder="Enter a new address"></input>
-        <input placeholder="Attn:"></input>
-        <input placeholder="Street"></input>
-        <input placeholder="Line2"></input>
-        <input placeholder="Line3"></input>
-        <input placeholder="City"></input>
-        <input placeholder="Country"></input>
-        <input placeholder="State/province"></input>
-        <input placeholder="Zip"></input>
+        <input className="form-control" placeholder="Enter a new address"></input>
+        <input className="form-control" placeholder="Attn:"></input>
+        <input className="form-control" placeholder="Street"></input>
+        <input className="form-control" placeholder="Line2"></input>
+        <input className="form-control" placeholder="Line3"></input>
+        <input className="form-control" placeholder="City"></input>
+        <input className="form-control" placeholder="Country"></input>
+        <input className="form-control" placeholder="State/province"></input>
+        <input className="form-control" placeholder="Zip"></input>
       </div>
       <a href="d">SHIPPING</a>
       <div>
-        <textarea placeholder="Shipping Instructions"></textarea>
+        <textarea className="form-control" placeholder="Shipping Instructions"></textarea>
       </div>
       <div>
         
