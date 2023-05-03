@@ -45,12 +45,12 @@ footer p {
   height: 100%;
   position: fixed;
   z-index: 1;
-  top: 32;
+  top:32;
   right: 0;
   background-color: #111;
   overflow-x: hidden;
   transition: 0.5s;
-  padding-top: 60px;
+  padding-top: 0px;
   width: 250px;
 }
 
