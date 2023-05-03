@@ -6,10 +6,10 @@ import { nanoid } from "nanoid";
 import NewTableBody from "./NewTableBody";
 import panelFinishList from "../panelFinish.js";
 import { useReactToPrint } from "react-to-print";
+import * as XLSX from "xlsx/xlsx.js";
 
 function CreateArea() {
-  
-
+  //Create the main array contains objects that user create or default object
   const [items, setItems] = useState([
     {
       id: 0,
@@ -51,45 +51,103 @@ function CreateArea() {
       subtotal: 900,
     },
   ]);
+  //Read the files and import the data into Items
+  const handleFileUpload = (e) => {
+    const file = e.target.files[0];
 
-  // const handleFileUpload = (e) => {
-  //   const file = e.target.files[0];
+    // Check if the file is an Excel file. If not, return alert.
+    if (
+      !file ||
+      (!file.name.endsWith(".xlsx") && !file.name.endsWith(".csv")) ||
+      !file.type ===
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    ) {
+      alert("Please select an Excel file (XLSX)");
+      return;
+    }
+    //Read the file name
+    const reader = new FileReader();
+    reader.readAsBinaryString(file);
 
-  //   // Check if the file is an Excel file
-  //   if (
-  //     !file ||
-  //     (!file.name.endsWith(".xlsx") && !file.name.endsWith(".csv")) ||
-  //     !file.type ===
-  //       "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-  //   ) {
-  //     alert("Please select an Excel file (XLSX)");
-  //     return;
-  //   }
-  //   const reader = new FileReader();
-  //   reader.readAsBinaryString(file);
-  //   reader.onload = (e) => {
-  //     const items = e.target.result;
+    //Load the file data
+    reader.onload = (e) => {
+      //Get the file
+      const items = e.target.result;
+      //Read the file
+      const workbook = XLSX.read(items, { type: "binary" });
+      //Read the first sheet only and get the sheet name
+      const sheetName = workbook.SheetNames[0];
+      const sheet = workbook.Sheets[sheetName];
+      //Create the new variable to store the data from the sheet
+      let parsedData = XLSX.utils.sheet_to_json(sheet);
 
-  //     const workbook = XLSX.read(items, { type: "binary" });
-  //     const sheetName = workbook.SheetNames[0];
-  //     const sheet = workbook.Sheets[sheetName];
-  //     let parsedData = XLSX.utils.sheet_to_json(sheet);
-  //     for (let row in parsedData) {
-  //       console.log(parsedData[0].hingeHole);
-  //       if (parsedData[row].hingeHole === "false") {
-  //         parsedData[row].hingeHole = false;
-  //       } else if (parsedData[row].hingeHole === "true") {
-  //         parsedData[row].hingeHole = true;
-  //       }
-  //       if (parsedData[row].woodGrand === "false") {
-  //         parsedData[row].woodGrand = false;
-  //       } else if (parsedData[row].woodGrand === "true") {
-  //         parsedData[row].woodGrand = true;
-  //       }
-  //     }
-  //     setItems(parsedData);
-  //   };
-  // };
+      //Create a new array to store the objects in the data
+      let newArray = [];
+
+      for (let row in parsedData) {
+        //Create a new object to store data from the file
+        let newItem = {
+          panelFinish: "",
+          panelId: "",
+          qty: NaN,
+          width: NaN,
+          height: NaN,
+          hingeHole: false,
+          woodGrain: false,
+          miterCut: "None",
+          price: NaN,
+          subtotal: NaN,
+          id: nanoid(),
+        };
+
+        //Check if the T/F state is string, then change the datatype from string into boolean
+        if (parsedData[row].hingeHole === "false") {
+          parsedData[row].hingeHole = false;
+        } else if (parsedData[row].hingeHole === "true") {
+          parsedData[row].hingeHole = true;
+        }
+        if (parsedData[row].woodGrain === "false") {
+          parsedData[row].woodGrain = false;
+        } else if (parsedData[row].woodGrain === "true") {
+          parsedData[row].woodGrain = true;
+        }
+
+        //Re-Calculate the price and subtotal of the object, Re-set the id for the object
+        const priceArr = mycal(panelFinishList, parsedData[row]);
+        const priceField = "price";
+        const sutotalField = "subtotal";
+        const idField = "id";
+
+        //Input all the edited data from the file into the new object
+        Object.keys(newItem).forEach(function(key) {
+          newItem[key] = parsedData[row][key];
+        });
+        newItem[priceField] = priceArr[0];
+        newItem[sutotalField] = priceArr[1];
+        newItem[idField] = Number(row) + 1;
+
+        //According to the Panel ID, Re-set the empty part of Panel Finish
+        setPanelFinish(newItem);
+
+        //Push the object into the array
+        newArray.push(newItem);
+      }
+      //Set the new Array into the items
+      setItems(newArray);
+    };
+  };
+
+  //The function matches the panel finish according to the panel ID
+  const setPanelFinish = (newItem) => {
+    if (isNaN(newItem.panelFinish) && newItem.panelId) {
+      const matchingFinish = panelFinishList.find(
+        (finish) => finish.id === newItem.panelId
+      );
+      if (matchingFinish) {
+        newItem.panelFinish = matchingFinish.label;
+      }
+    }
+  };
 
   function mycal(PL, obj) {
     const height = Number(obj.height);
@@ -339,8 +397,9 @@ function CreateArea() {
       </table>
       <input
         type="file"
-        accept=".xlsx, .xls .csv"
+        accept=".xlsx, .xls, .csv"
         className="form-control bg-light rounded-pill"
+        onChange={handleFileUpload}
       />
     </Fragment>
   );

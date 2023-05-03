@@ -1,5 +1,4 @@
 import React, { Fragment } from "react";
-import { Input } from "@mui/material";
 
 function RightSideBar() {
   return (
