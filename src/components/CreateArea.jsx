@@ -1,6 +1,8 @@
 import React, { Fragment, useState, useRef } from "react";
 import TableHead from "./TableHead";
 import TableFooter from "./TableFooter";
+import PrintHead from "./PrintHead";
+import PrintFooter from "./PrintFooter";
 import ReadOnly from "./ReadOnly";
 import { nanoid } from "nanoid";
 import NewTableBody from "./NewTableBody";
@@ -15,40 +17,40 @@ function CreateArea() {
       id: 0,
       panelFinish: "Arctic (White) HG",
       panelId: "MDAC2001-182S90",
-      qty: 1,
+      qty: 2,
       width: 43,
       height: 87,
       hingeHole: false,
       woodGrand: false,
       miterCut: "Top",
-      price: 100,
-      subtotal: 100,
+      price: 361.97,
+      subtotal: 723.94,
     },
     {
       id: 1,
       panelFinish: "Stone Grey (Dark Grey) Super Matte",
       panelId: "MDPE3020-181S90",
-      qty: 2,
+      qty: 3,
       width: 20,
       height: 32,
       hingeHole: true,
       woodGrand: false,
       miterCut: "1H",
-      price: 200,
-      subtotal: 400,
+      price: 62.7,
+      subtotal: 188.1,
     },
     {
       id: 2,
       panelFinish: "Egger Brown Tossini Elm",
       panelId: "PBME1212E-192S33-60110",
-      qty: 3,
+      qty: 4,
       width: 44,
       height: 65,
       hingeHole: true,
       woodGrand: true,
       miterCut: "Bot",
-      price: 300,
-      subtotal: 900,
+      price: 172.23,
+      subtotal: 688.9,
     },
   ]);
   //Read the files and import the data into Items
@@ -375,26 +377,27 @@ function CreateArea() {
         </tbody>
         <TableFooter items={items} onAdd={addRow} printPDF={generatePDF} />
       </table>
+      <div hidden>
       <table
+        id="PrintTable"
         className="table table-hover table-sm table-responsive-sm"
         ref={componentPDF}
       >
-        <TableHead />
+        <PrintHead />
         <tbody>
-          {items.map((rowItem, index) => {
+        {items.map((rowItem, index) => {
             return (
               <ReadOnly
                 key={index}
                 ItemNum={index}
                 item={rowItem}
-                handleDeleteClick={deleteRow}
-                handleCopyClick={copyRow}
               />
             );
           })}
         </tbody>
-        <TableFooter items={items} onAdd={addRow} printPDF={generatePDF} />
+        <PrintFooter items={items}/>
       </table>
+      </div>
       <input
         type="file"
         accept=".xlsx, .xls, .csv"

@@ -75,6 +75,19 @@ footer p {
   margin-left: 50px;
 }
 
+#PrintTable thead th{
+  border: none;
+}
+
+#PrintTable .needBorder{
+  border: 1px solid black;
+}
+
+#PrintTable .listhead{
+  background-color: lightskyblue;
+  border-radius: 10px;
+}
+
 #main {
   transition: margin-left 0.5s;
   padding: 16px;
