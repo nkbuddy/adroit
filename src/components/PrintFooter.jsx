@@ -16,11 +16,11 @@ function PrintFooter(props) {
   return (
     <tfoot>
       <tr>
-        <td colSpan="5" align="right">
+        <td colSpan="7" align="right">
           total items
         </td>
         <td>{totalQty}</td>
-        <td colSpan="7" align="right">
+        <td colSpan="3" align="right">
           ${testTotel}
         </td>
       </tr>
