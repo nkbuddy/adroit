@@ -1,7 +1,7 @@
 self.__precacheManifest = [
   {
-    "revision": "c2217a1ee76f48194883",
-    "url": "/adroit/static/js/main.c2217a1e.chunk.js"
+    "revision": "d63c8e8bad919fd7b2ac",
+    "url": "/adroit/static/js/main.d63c8e8b.chunk.js"
   },
   {
     "revision": "e407c3d242eaafb68add",
@@ -16,7 +16,7 @@ self.__precacheManifest = [
     "url": "/adroit/static/js/runtime~main.a3729c65.js"
   },
   {
-    "revision": "4321f21d12e67a03e075cdb0334b6414",
+    "revision": "a06edc55e33699df288badf3993328f4",
     "url": "/adroit/index.html"
   }
 ];
