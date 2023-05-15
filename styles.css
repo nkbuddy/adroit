@@ -109,5 +109,6 @@ footer p {
   @page {
     size: 12in 8.27in;
     margin: 0;
+    font-size: 13px;
   }
 }
