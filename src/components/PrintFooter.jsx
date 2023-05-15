@@ -1,27 +1,36 @@
-import React, { useState, useEffect } from "react";
-import { CSVLink } from "react-csv";
+import React from "react";
 
 function PrintFooter(props) {
   const items = props.items;
+  const IsFreight = props.IsFreight;
 
-  let testTotel = 0;
+  let testTotal = 0;
   let totalQty = 0;
+  let packagingFee = 0;
   for (let row in items) {
-    testTotel += Number(items[row].subtotal);
+    testTotal += Number(items[row].subtotal);
     totalQty += Number(items[row].qty);
+    packagingFee += Number(
+      items[row].width * items[row].height * items[row].qty
+    );
   }
-  testTotel = +(Math.round(testTotel + "e+2") + "e-2");
+  packagingFee = +(Math.round(packagingFee / 144 + "e+2") + "e-2");
 
+  testTotal = +(Math.round(testTotal + "e+2") + "e-2");
+  if (IsFreight === true) {
+    testTotal = +(Math.round(testTotal + packagingFee + "e+2") + "e-2");
+  }
 
   return (
-    <tfoot>
+    <tfoot className="print-footer">
       <tr>
         <td colSpan="7" align="right">
           total items
         </td>
         <td>{totalQty}</td>
+        {IsFreight && <td>Packaging Fee {packagingFee}</td>}
         <td colSpan="3" align="right">
-          ${testTotel}
+          ${testTotal}
         </td>
       </tr>
     </tfoot>

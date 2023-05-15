@@ -12,7 +12,7 @@ function TableHead() {
         <th className="text-center">Width(inch)</th>
         <th className="text-center">Height(inch)</th>
         <th className="text-center">Hinge Hole</th>
-        <th className="text-center">Wood grand</th>
+        <th className="text-center">Match grain</th>
         <th className="text-center">Miter cut</th>
         <th className="text-center">Price</th>
         <th className="text-center">Subtotal</th>

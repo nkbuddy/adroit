@@ -14,6 +14,8 @@ function NewTableBody({
   const [widthDecimal, setWidthDecimal] = useState(true);
   const [heightDecimal, setHeightDecimal] = useState(true);
   const [qtyInteger, setQtyInteger] = useState(true);
+  const [oversize, setOversize] = useState(true);
+
 
   function isValidNumber(number) {
     const regex = /^\d+(\.\d{1,3})?$/;
@@ -21,16 +23,16 @@ function NewTableBody({
   }
   function isPositiveInteger(input) {
     return /^[1-9]\d*$/.test(input);
-  }  
+  }
 
   useEffect(() => {
     //if is in range
-    if (item.width <= 0 || item.width > 47.875) {
+    if (item.width <= 0 || item.width > 48) {
       setWidthValue(false);
     } else {
       setWidthValue(true);
     }
-    if (item.height <= 0 || item.height > 95.875){
+    if (item.height <= 0 || item.height > 96){
       setHeightValue(false);
     }
     else{
@@ -68,6 +70,16 @@ function NewTableBody({
     else
     setQtyInteger(true);
     //if qty is bigger than 0 
+
+    const size = (item.width * item.height)/144;
+
+    if(size > 30 || size < 0 ){
+      setOversize(false);
+      item.price = NaN;
+      item.subtotal = NaN;
+    }
+    else
+    setOversize(true);
   }, [item.width, item.height, item.qty]);
 
   return (
@@ -140,8 +152,11 @@ function NewTableBody({
           style={{ width: "6em" }}
           onChange={(event) => handleEditAllInOne(event, item.id, item)}
         />
+        {oversize === false && (
+          <div className="oversize">The Door Panel is oversized. Please contact sales to place order</div>
+        )}
         {widthValue === false && (
-          <div className="invalid-feedback">Please enter value not zero and less than 47.875</div>
+          <div className="invalid-feedback">Please enter value not zero and less than 48</div>
         )}
         {widthDecimal === false && (
           <div className="invalid-feedback">Please enter less than 4 decimal place</div>
@@ -157,7 +172,7 @@ function NewTableBody({
           onChange={(event) => handleEditAllInOne(event, item.id, item)}
         />
         {heightValue === false && (
-          <div className="invalid-feedback">Please enter value not zero and less than 95.875</div>
+          <div className="invalid-feedback">Please enter value not zero and less than 96</div>
         )}
         {heightDecimal === false && (
           <div className="invalid-feedback">Please enter less than 4 decimal place</div>
@@ -178,8 +193,8 @@ function NewTableBody({
           type="checkbox"
           className="form-check-input"
           id="defaultCheck2"
-          name="woodGrand"
-          checked={item.woodGrand}
+          name="matchGrain"
+          checked={item.matchGrain}
           onChange={(event) => handleEditAllInOne(event, item.id, item)}
         />
       </td>

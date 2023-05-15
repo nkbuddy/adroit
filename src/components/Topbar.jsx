@@ -39,7 +39,7 @@ function Topbar() {
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
-                <i class="bi bi-star-fill"></i>
+                <i className="bi bi-star-fill"></i>
               </a>
               <ul className="dropdown-menu">
                 <li>
@@ -66,7 +66,7 @@ function Topbar() {
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
-                <i class="bi bi-cart-fill"></i>
+                <i className="bi bi-cart-fill"></i>
               </a>
               <ul className="dropdown-menu">
                 <li>
@@ -93,7 +93,7 @@ function Topbar() {
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
-                <i class="bi bi-pie-chart-fill"></i>
+                <i className="bi bi-pie-chart-fill"></i>
               </a>
               <ul className="dropdown-menu">
                 <li>
@@ -120,7 +120,7 @@ function Topbar() {
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
-                <i class="bi bi-gear-fill"></i>
+                <i className="bi bi-gear-fill"></i>
               </a>
               <ul className="dropdown-menu">
                 <li>
@@ -147,7 +147,7 @@ function Topbar() {
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
-                <i class="bi bi-bell-fill"></i>
+                <i className="bi bi-bell-fill"></i>
               </a>
               <ul className="dropdown-menu">
                 <li>
@@ -169,7 +169,7 @@ function Topbar() {
             </li>
           </ul>
           <div className="d-lg-flex col-lg-3 justify-content-lg-end">
-            <i class="bi bi-person-circle btn" style={{"font-size": "28px"}}></i>
+            <i className="bi bi-person-circle btn" style={{"fontsize": "28px"}}></i>
           </div>
         </div>
       </div>

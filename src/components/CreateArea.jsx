@@ -10,7 +10,7 @@ import panelFinishList from "../panelFinish.js";
 import { useReactToPrint } from "react-to-print";
 import * as XLSX from "xlsx/xlsx.js";
 
-function CreateArea() {
+function CreateArea({ info }) {
   //Create the main array contains objects that user create or default object
   const [items, setItems] = useState([
     {
@@ -21,7 +21,7 @@ function CreateArea() {
       width: 43,
       height: 87,
       hingeHole: false,
-      woodGrand: false,
+      matchGrain: false,
       miterCut: "Top",
       price: 361.97,
       subtotal: 723.94,
@@ -34,7 +34,7 @@ function CreateArea() {
       width: 20,
       height: 32,
       hingeHole: true,
-      woodGrand: false,
+      matchGrain: false,
       miterCut: "1H",
       price: 62.7,
       subtotal: 188.1,
@@ -47,7 +47,7 @@ function CreateArea() {
       width: 44,
       height: 65,
       hingeHole: true,
-      woodGrand: true,
+      matchGrain: true,
       miterCut: "Bot",
       price: 172.23,
       subtotal: 688.9,
@@ -95,35 +95,36 @@ function CreateArea() {
           width: NaN,
           height: NaN,
           hingeHole: false,
-          woodGrain: false,
+          matchGrain: false,
           miterCut: "None",
           price: NaN,
           subtotal: NaN,
           id: nanoid(),
         };
 
-        //Check if the T/F state is string, then change the datatype from string into boolean
-        if (parsedData[row].hingeHole === "false") {
-          parsedData[row].hingeHole = false;
-        } else if (parsedData[row].hingeHole === "true") {
-          parsedData[row].hingeHole = true;
-        }
-        if (parsedData[row].woodGrain === "false") {
-          parsedData[row].woodGrain = false;
-        } else if (parsedData[row].woodGrain === "true") {
-          parsedData[row].woodGrain = true;
-        }
-
-        //Re-Calculate the price and subtotal of the object, Re-set the id for the object
         const priceArr = mycal(panelFinishList, parsedData[row]);
         const priceField = "price";
         const sutotalField = "subtotal";
         const idField = "id";
 
         //Input all the edited data from the file into the new object
-        Object.keys(newItem).forEach(function(key) {
+        Object.keys(newItem).forEach(function (key) {
           newItem[key] = parsedData[row][key];
         });
+
+        //Check if the T/F state is string, then change the datatype from string into boolean
+        if (parsedData[row]["hingeHole"] === "false") {
+          newItem.hingeHole = false;
+        } else if (parsedData[row]["hingeHole"] === "true") {
+          newItem.hingeHole = true;
+        }
+        if (parsedData[row]["matchGrain"] === "false") {
+          newItem.matchGrain = false;
+        } else if (parsedData[row]["matchGrain"] === "true") {
+          newItem.matchGrain = true;
+        }
+
+        //Re-Calculate the price and subtotal of the object, Re-set the id for the object
         newItem[priceField] = priceArr[0];
         newItem[sutotalField] = priceArr[1];
         newItem[idField] = Number(row) + 1;
@@ -134,6 +135,7 @@ function CreateArea() {
         //Push the object into the array
         newArray.push(newItem);
       }
+
       //Set the new Array into the items
       setItems(newArray);
     };
@@ -158,12 +160,15 @@ function CreateArea() {
     let panel_value = 0;
     let unit_price = 0;
     let discount = 1;
+    let grain = "";
     const Sindex = PL.findIndex(
-      (pitem) => pitem.label == obj.panelFinish || pitem.id == obj.panelId
+      (pitem) => pitem.label === obj.panelFinish || pitem.id === obj.panelId
     );
-    if (Sindex != -1) {
+    if (Sindex !== -1) {
       panel_value = Number(PL[Sindex].value);
+      grain = PL[Sindex].grain;
     }
+
     if (obj.hingeHole) {
       if (height < 38.875) {
         unit_price += 2;
@@ -171,13 +176,16 @@ function CreateArea() {
         unit_price += 3;
       } else if (height < 79.375) {
         unit_price += 4;
-      } else if (height < 95.875) {
+      } else if (height <= 96) {
         unit_price += 5;
       }
     }
 
-    if (obj.woodGrand) unit_price += 15;
-    if (obj.miterCut != "None") unit_price += 15;
+    if (obj.miterCut !== "None") unit_price += 15;
+
+    if (grain === "Y") {
+      if (obj.matchGrain) unit_price += 15;
+    }
     let sizeOfDoor = (width * height) / 144;
     if (sizeOfDoor <= 1.5) sizeOfDoor = 1.5;
 
@@ -192,16 +200,15 @@ function CreateArea() {
     } else if (sizeOfDoor > 13.0 && sizeOfDoor <= 30.0) {
       discount = 0.75;
     }
-    subtotal *= discount;
-    subtotal = Math.round(subtotal * 100) / 100;
+    subtotal = +(Math.round(subtotal + "e+2") + "e-2");
     unit_price = subtotal / obj.qty;
-    unit_price = Math.round(unit_price * 100) / 100;
+    unit_price = +(Math.round(unit_price + "e+2") + "e-2");
 
-    if (width <= 0 || width > 47.875) {
+    if (width <= 0 || width > 48) {
       unit_price = NaN;
       subtotal = NaN;
     }
-    if (height <= 0 || height > 95.875) {
+    if (height <= 0 || height > 965) {
       unit_price = NaN;
       subtotal = NaN;
     }
@@ -209,13 +216,15 @@ function CreateArea() {
       unit_price = NaN;
       subtotal = NaN;
     }
+    subtotal *= discount;
+    subtotal = +(Math.round(subtotal + "e+2") + "e-2");
     return [unit_price, subtotal];
   }
 
   function updateRow(event, itemId, item) {
     const fieldName = event.target.getAttribute("name");
     let fieldValue;
-    if (fieldName == "hingeHole" || fieldName == "woodGrand") {
+    if (fieldName === "hingeHole" || fieldName === "matchGrain") {
       fieldValue = event.target.checked;
     } else {
       fieldValue = event.target.value;
@@ -236,7 +245,7 @@ function CreateArea() {
       width: newData.width,
       height: newData.height,
       hingeHole: newData.hingeHole,
-      woodGrand: newData.woodGrand,
+      matchGrain: newData.matchGrain,
       miterCut: newData.miterCut,
       price: newData.price,
       subtotal: newData.subtotal,
@@ -249,25 +258,24 @@ function CreateArea() {
   }
 
   function updateTwo(event, itemId, item) {
-    console.log(event);
     const newData = { ...item };
     const fieldName = event.target.getAttribute("name");
     const fieldValue = event.target.value;
     const Sindex = panelFinishList.findIndex(
-      (item) => item.label == fieldValue || item.id == fieldValue
+      (item) => item.label === fieldValue || item.id === fieldValue
     );
     if (fieldName === "panelFinish") {
       const fieldName1 = "panelFinish";
       const fieldName2 = "panelId";
       newData[fieldName1] = fieldValue;
-      if (Sindex != -1) {
+      if (Sindex !== -1) {
         newData[fieldName2] = panelFinishList[Sindex].id;
       }
     } else if (fieldName === "panelId") {
       const fieldName1 = "panelId";
       const fieldName2 = "panelFinish";
       newData[fieldName1] = fieldValue;
-      if (Sindex != -1) {
+      if (Sindex !== -1) {
         newData[fieldName2] = panelFinishList[Sindex].label;
       }
     }
@@ -285,7 +293,7 @@ function CreateArea() {
       width: newData.width,
       height: newData.height,
       hingeHole: newData.hingeHole,
-      woodGrand: newData.woodGrand,
+      matchGrain: newData.matchGrain,
       miterCut: newData.miterCut,
       price: newData.price,
       subtotal: newData.subtotal,
@@ -315,7 +323,7 @@ function CreateArea() {
       width: copyItem.width,
       height: copyItem.height,
       hingeHole: copyItem.hingeHole,
-      woodGrand: copyItem.woodGrand,
+      matchGrain: copyItem.matchGrain,
       miterCut: copyItem.miterCut,
       price: copyItem.price,
       subtotal: copyItem.subtotal,
@@ -335,7 +343,7 @@ function CreateArea() {
         width: NaN,
         height: NaN,
         hingeHole: false,
-        woodGrand: false,
+        matchGrain: false,
         miterCut: "None",
         price: NaN,
         subtotal: NaN,
@@ -352,6 +360,7 @@ function CreateArea() {
     content: () => componentPDF.current,
     documentTile: "UserData",
   });
+  const [IsFreight, setIsFreight] = useState(false);
 
   return (
     <Fragment>
@@ -375,28 +384,27 @@ function CreateArea() {
             );
           })}
         </tbody>
-        <TableFooter items={items} onAdd={addRow} printPDF={generatePDF} />
+        <TableFooter
+          items={items}
+          onAdd={addRow}
+          printPDF={generatePDF}
+          setIsFreight={setIsFreight}
+        />
       </table>
       <div hidden>
-      <table
-        id="PrintTable"
-        className="table table-hover table-sm table-responsive-sm"
-        ref={componentPDF}
-      >
-        <PrintHead />
-        <tbody>
-        {items.map((rowItem, index) => {
-            return (
-              <ReadOnly
-                key={index}
-                ItemNum={index}
-                item={rowItem}
-              />
-            );
-          })}
-        </tbody>
-        <PrintFooter items={items}/>
-      </table>
+        <table
+          id="PrintTable"
+          className="table table-hover table-sm table-responsive-sm"
+          ref={componentPDF}
+        >
+          <PrintHead info={info} />
+          <tbody>
+            {items.map((rowItem, index) => {
+              return <ReadOnly key={index} ItemNum={index} item={rowItem} />;
+            })}
+          </tbody>
+          <PrintFooter items={items} IsFreight={IsFreight} />
+        </table>
       </div>
       <input
         type="file"
