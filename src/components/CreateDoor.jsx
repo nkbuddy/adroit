@@ -1,58 +1,19 @@
 import React, { Fragment, useState, useRef } from "react";
-import TableHead from "./TableHead";
-import TableFooter from "./TableFooter";
-import PrintHead from "./PrintHead";
-import PrintFooter from "./PrintFooter";
-import ReadOnly from "./ReadOnly";
 import { nanoid } from "nanoid";
-import NewTableBody from "./NewTableBody";
-import panelFinishList from "../panelFinish.js";
 import { useReactToPrint } from "react-to-print";
+import panelFinishList from "../panelFinish.js";
 import * as XLSX from "xlsx/xlsx.js";
+import TableHead from "./DoorTableHead";
+import TableFooter from "./DoorTableFooter";
+import PrintHead from "./DoorPrintHead";
+import PrintFooter from "./DoorPrintFooter";
+import ReadOnly from "./DoorPrintBody";
+import NewTableBody from "./DoorTableBody";
 
 function CreateArea({ info }) {
   //Create the main array contains objects that user create or default object
-  const [items, setItems] = useState([
-    {
-      id: 0,
-      panelFinish: "Arctic (White) HG",
-      panelId: "MDAC2001-182S90",
-      qty: 2,
-      width: 43,
-      height: 87,
-      hingeHole: false,
-      matchGrain: false,
-      miterCut: "Top",
-      price: 361.97,
-      subtotal: 723.94,
-    },
-    {
-      id: 1,
-      panelFinish: "Stone Grey (Dark Grey) Super Matte",
-      panelId: "MDPE3020-181S90",
-      qty: 3,
-      width: 20,
-      height: 32,
-      hingeHole: true,
-      matchGrain: false,
-      miterCut: "1H",
-      price: 62.7,
-      subtotal: 188.1,
-    },
-    {
-      id: 2,
-      panelFinish: "Egger Brown Tossini Elm",
-      panelId: "PBME1212E-192S33-60110",
-      qty: 4,
-      width: 44,
-      height: 65,
-      hingeHole: true,
-      matchGrain: true,
-      miterCut: "Bot",
-      price: 172.23,
-      subtotal: 688.9,
-    },
-  ]);
+  const [items, setItems] = useState([]);
+  const [IsFreight, setIsFreight] = useState(false);
   //Read the files and import the data into Items
   const handleFileUpload = (e) => {
     const file = e.target.files[0];
@@ -108,7 +69,7 @@ function CreateArea({ info }) {
         const idField = "id";
 
         //Input all the edited data from the file into the new object
-        Object.keys(newItem).forEach(function (key) {
+        Object.keys(newItem).forEach(function(key) {
           newItem[key] = parsedData[row][key];
         });
 
@@ -360,7 +321,6 @@ function CreateArea({ info }) {
     content: () => componentPDF.current,
     documentTile: "UserData",
   });
-  const [IsFreight, setIsFreight] = useState(false);
 
   return (
     <Fragment>

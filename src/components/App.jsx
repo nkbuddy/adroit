@@ -1,25 +1,11 @@
 import React, { useState } from "react";
-import Topbar from "./Topbar";
-import CreateArea from "./CreateArea";
-import RightSideBar from "./RightSideBar";
+import Toggle from "./Toggle";
 
 function App() {
-  const [info, setInfo] = useState({
-    name: "",
-    description: "",
-    date: "",
-    billing: "",
-    shipping: ""
-  });
-
 
   return (
     <div className="App">
-      <Topbar />
-      <RightSideBar setInfo={setInfo} />
-      <div id="main">
-        <CreateArea info={info} />
-      </div>
+      <Toggle/>
     </div>
   );
 }

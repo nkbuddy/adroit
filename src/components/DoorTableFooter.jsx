@@ -24,6 +24,7 @@ function TableFooter(props) {
   function handleClick(n) {
     props.onAdd(n);
   }
+  
   function handleAddRowNumber(event) {
     const needRow = event.target.value;
     setAddNumberOfRow(needRow);
