@@ -20,7 +20,7 @@ function Toggle() {
   }
   return (
     <Fragment>
-      <div class="input-group d-flex justify-content-center">
+      <div className="input-group d-flex justify-content-center">
         <i
           onClick={cabinetClicked}
           className={
@@ -43,7 +43,24 @@ function Toggle() {
         </i>
       </div>
       <div id="main">
-        {isDoorClicked ? <CreateDoor info={info} /> : null}
+      {isCabinetClicked ? (
+          <div className="text-center">
+            <h1>Coming Soon!</h1>
+          </div>
+        ) : (
+          <div style={{ display: "none" }}>
+            <h1>Coming Soon!</h1>
+          </div>
+        )}
+        {isDoorClicked ? (
+          <div>
+            <CreateDoor info={info} />
+          </div>
+        ) : (
+          <div style={{ display: "none" }}>
+            <CreateDoor info={info} />
+          </div>
+        )}
       </div>
     </Fragment>
   );
