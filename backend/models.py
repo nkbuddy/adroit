@@ -19,6 +19,12 @@ class Book(BaseModel):
             }
         }
 
+class CabinetDoor(BaseModel):
+    id: str = Field(default=uuid.uuid4, alias="_id")
+    value: float = Field(...)
+    label: str = Field(...)
+    id: str = Field(...)
+    des: str = Field(...)
 
 class BookUpdate(BaseModel):
     title: Optional[str]
